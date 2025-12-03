@@ -309,26 +309,6 @@
   100% { transform: translateX(0px) translateY(0px) rotate(0deg); }
 }
 
-/* When active = vibration runs */
-.gauge-face.engine-on {
-  animation: gaugeVibrate 0.12s infinite linear;
-}
-
-/* ========== SLIDE IN FROM LEFT → RIGHT ON APPEAR ========== */
-@keyframes gaugeSlideIn {
-  0%   { opacity: 0; transform: translateX(-30px) scale(0.92); }
-  100% { opacity: 1; transform: translateX(0) scale(1); }
-}
-
-.gauge-slide-start {
-  opacity: 0;
-}
-
-.gauge-slide-in {
-  animation: gaugeSlideIn 0.7s cubic-bezier(.2,.9,.23,1) forwards;
-}
-
-
 /* SVG sizing inside container */
 .gauge-svg {
   width: 100px;
