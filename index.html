@@ -524,6 +524,105 @@
   input, textarea{ width:100%; padding:12px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:rgba(255,255,255,0.02); color:#fff; outline:none; }
   button.submit{ padding:12px 18px; border-radius:10px; border:none; background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#050505; font-weight:800; cursor:pointer; }
 
+  /* ---------- CONTACT STEEL PLATE ---------- */
+.contact-steel {
+  position: relative;
+  background: linear-gradient(180deg, #1c1c1c, #0b0b0b);
+  border-radius: 16px;
+  padding: 28px 22px;
+  border: 2px solid rgba(255,255,255,0.06);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.7);
+  flex: 1;
+  min-width: 300px;
+}
+
+/* rivets */
+.contact-steel::before,
+.contact-steel::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, #b0b0b0 20%, #4a4a4a 70%);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.contact-steel::before { top: 12px; left: 12px; }
+  /* ----------- RIVET SHIMMER ANIMATION ----------- */
+@keyframes rivetShimmer {
+  0%, 100% {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5), inset 0 0 4px rgba(255,255,255,0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6), inset 0 0 10px rgba(255,255,255,0.4);
+    transform: scale(1.08);
+  }
+}
+
+.contact-steel::before,
+.contact-steel::after {
+  animation: rivetShimmer 2.5s ease-in-out infinite alternate;
+}
+
+.contact-steel::after  { bottom: 12px; right: 12px; }
+
+/* ---------- FLOATING GLASS FORM ---------- */
+.contact-glass {
+  position: relative;
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  padding: 28px 22px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  backdrop-filter: blur(12px);
+  flex: 1;
+  min-width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-glass:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+}
+
+/* input styling inside glass panel */
+.contact-glass input,
+.contact-glass textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  margin-bottom: 12px;
+  outline: none;
+}
+
+/* submit button */
+.contact-glass .submit {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2));
+  color: #050505;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.contact-glass .submit:hover {
+  transform: scale(1.04);
+}
+
+/* responsive */
+@media (max-width: 980px){
+  .contact-grid { grid-template-columns: 1fr; gap:20px; }
+}
+
+
+  
   /* FOOTER */
   footer{ padding:36px 20px; text-align:center; color:var(--muted); margin-top:40px; }
 
@@ -898,37 +997,37 @@
 
   <!-- CONTACT -->
   <div class="container">
-    <section id="contact" class="panel reveal" style="margin-top:26px;">
-      <h2 style="color:var(--accent1); margin-bottom:12px;">Contact & Quote</h2>
+  <section id="contact" class="panel reveal" style="margin-top:26px;">
+    <h2 style="color:var(--accent1); margin-bottom:12px;">Contact & Quote</h2>
 
-      <div class="contact-grid">
-        <div class="contact-panel">
-          <h3 style="color:#fff">Get in touch</h3>
-          <p style="color:var(--muted)">Send a message, attach photos and we'll reply with a clear quote.</p>
-          <div style="margin-top:12px;">
-            <div class="contact-info-box">
-              <strong>📍 Workshop:</strong> Johannesburg, Gauteng
-            </div>
-            <div class="contact-info-box" style="margin-top:8px;">
-              <strong>📞 Call/WhatsApp:</strong> +27 63 000 0000
-            </div>
-            <div class="contact-info-box" style="margin-top:8px;">
-              <strong>✉️ Email:</strong> info@moosawelding.co.za
-            </div>
-          </div>
+    <div class="contact-grid">
+      <!-- Left Steel Plate -->
+      <div class="contact-steel">
+        <h3>Get in Touch</h3>
+        <p>Send a message, attach photos and we'll reply with a clear quote.</p>
+        <div class="contact-info-box">
+          <strong>📍 Workshop:</strong> Johannesburg, Gauteng
         </div>
-
-        <form id="contactForm" class="contact-panel" style="display:flex; flex-direction:column;">
-          <div class="field"><input id="name" placeholder="Full name" required></div>
-          <div class="field"><input id="email" placeholder="Email" type="email" required></div>
-          <div class="field"><input id="phone" placeholder="Phone"></div>
-          <div class="field"><textarea id="message" placeholder="Message & photos (links)" rows="5"></textarea></div>
-          <button class="submit" type="submit">Send Request</button>
-        </form>
+        <div class="contact-info-box">
+          <strong>📞 Call/WhatsApp:</strong> +27 63 000 0000
+        </div>
+        <div class="contact-info-box">
+          <strong>✉️ Email:</strong> info@moosawelding.co.za
+        </div>
       </div>
 
-    </section>
-  </div>
+      <!-- Right Floating Glass Form -->
+      <form id="contactForm" class="contact-glass" style="display:flex; flex-direction:column;">
+        <div class="field"><input id="name" placeholder="Full name" required></div>
+        <div class="field"><input id="email" placeholder="Email" type="email" required></div>
+        <div class="field"><input id="phone" placeholder="Phone"></div>
+        <div class="field"><textarea id="message" placeholder="Message & photos (links)" rows="5"></textarea></div>
+        <button class="submit" type="submit">Send Request</button>
+      </form>
+    </div>
+  </section>
+</div>
+
 
 </main>
 
