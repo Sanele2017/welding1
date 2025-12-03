@@ -154,6 +154,113 @@
   .card h3{ color:var(--accent1); margin-bottom:8px; letter-spacing:1px; }
   .card p{ color:#cfcfcf; font-size:14px; }
 
+  /*service section */
+  .services-section {
+    padding: 80px 5%;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 42px;
+    color: #ffa142;
+    margin-bottom: 50px;
+    letter-spacing: 2px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+/* Metal Card Base */
+.service-card {
+    position: relative;
+    background: linear-gradient(135deg, #2a2a2a, #1c1c1c);
+    border: 2px solid #4d4d4d;
+    padding: 40px 25px;
+    border-radius: 18px;
+    box-shadow:
+        inset 0 0 30px rgba(0,0,0,0.7),
+        0 10px 20px rgba(0,0,0,0.4);
+    transition: 0.4s ease;
+    overflow: hidden;
+}
+
+/* Hover: 3D Pop + Light Sweep */
+.service-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:
+        inset 0 0 40px rgba(255,162,66,0.15),
+        0 18px 30px rgba(0,0,0,0.6);
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,162,66,0.25),
+        transparent
+    );
+    transform: rotate(25deg);
+    transition: 0.6s ease;
+}
+
+.service-card:hover::before {
+    top: 100%;
+    left: 100%;
+}
+
+/* Rivets */
+.metal-rivet {
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle, #d9d9d9, #777);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
+}
+
+.top-left { top: 12px; left: 12px; }
+.top-right { top: 12px; right: 12px; }
+.bottom-left { bottom: 12px; left: 12px; }
+.bottom-right { bottom: 12px; right: 12px; }
+
+/* Icon Badge */
+.service-icon {
+    background: #ffa142;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.service-icon img {
+    width: 42px;
+}
+
+.service-card h3 {
+    color: #ffa142;
+    font-size: 24px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.service-card p {
+    color: #e5e5e5;
+    font-size: 15px;
+    line-height: 1.6;
+}
   /* wide grid for gallery */
   .gallery-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-top:18px; }
   .gallery-grid .thumb{ height:140px; border-radius:10px; overflow:hidden; background-size:cover; background-position:center; position:relative; border:1px solid rgba(255,255,255,0.03); cursor:pointer; }
@@ -317,36 +424,57 @@
 
   <!-- SERVICES -->
   <div class="container">
-    <section id="services" class="panel reveal">
-      <h2 style="color:var(--accent1); margin-bottom:16px;">Our Services</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Precision TIG Welding</h3>
-          <p>Thin-gauge stainless and aluminium welds for cosmetic & critical joints. Smooth finish, high tolerance.</p>
-        </div>
-        <div class="card">
-          <h3>MIG / CO₂ Welding</h3>
-          <p>Robust joins for automotive frames, chassis work and structural repairs with maximum efficiency.</p>
-        </div>
-        <div class="card">
-          <h3>Panelbeating & Restoration</h3>
-          <p>Accident repair, panel alignment, dent removal, and full body restoration with paint-ready finishes.</p>
+    <section id="services" class="services-section">
+    <h2 class="section-title">OUR SERVICES</h2>
+
+    <div class="services-grid">
+
+        <!-- SERVICE CARD -->
+        <div class="service-card">
+            <div class="metal-rivet top-left"></div>
+            <div class="metal-rivet top-right"></div>
+            <div class="metal-rivet bottom-left"></div>
+            <div class="metal-rivet bottom-right"></div>
+
+            <div class="service-icon">
+                <img src="icons/welding.svg" alt="Welding Icon">
+            </div>
+
+            <h3>TIG & MIG WELDING</h3>
+            <p>Clean weld beads, structural work, stainless steel and aluminium fabrication.</p>
         </div>
 
-        <div class="card">
-          <h3>Custom Fabrication</h3>
-          <p>Bespoke gates, trailers, brackets and industrial machinery parts — CAD-to-metal collaborations available.</p>
+        <!-- SERVICE CARD -->
+        <div class="service-card">
+            <div class="metal-rivet top-left"></div>
+            <div class="metal-rivet top-right"></div>
+            <div class="metal-rivet bottom-left"></div>
+            <div class="metal-rivet bottom-right"></div>
+
+            <div class="service-icon">
+                <img src="icons/panel.svg" alt="Panelbeating Icon">
+            </div>
+
+            <h3>PANELBEATING</h3>
+            <p>Accident repairs, dent removal, chassis alignment and custom panel shaping.</p>
         </div>
-        <div class="card">
-          <h3>Exhaust & Mechanical Repair</h3>
-          <p>Custom and replacement exhaust sections, muffler mods, and stainless fabrication for longevity & sound.</p>
+
+        <!-- SERVICE CARD -->
+        <div class="service-card">
+            <div class="metal-rivet top-left"></div>
+            <div class="metal-rivet top-right"></div>
+            <div class="metal-rivet bottom-left"></div>
+            <div class="metal-rivet bottom-right"></div>
+
+            <div class="service-icon">
+                <img src="icons/spray.svg" alt="Spray painting icon">
+            </div>
+
+            <h3>SPRAY PAINTING</h3>
+            <p>Professional automotive paint work, colour matching, and scratch refinishing.</p>
         </div>
-        <div class="card">
-          <h3>On-site Mobile Welding</h3>
-          <p>Fully equipped van for farm, industrial and roadside welding — we come to you for emergency & scheduled jobs.</p>
-        </div>
-      </div>
-    </section>
+    </div>
+</section>
   </div>
 
   <!-- GALLERY -->
