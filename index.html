@@ -300,6 +300,34 @@
   flex-direction:column;
   padding:10px;
 }
+  /* ========== ENGINE VIBRATION EFFECT ========== */
+@keyframes gaugeVibrate {
+  0%   { transform: translateX(-0.6px) translateY(0.6px) rotate(0deg); }
+  25%  { transform: translateX(0.7px) translateY(-0.5px) rotate(0.2deg); }
+  50%  { transform: translateX(-0.4px) translateY(0.4px) rotate(-0.2deg); }
+  75%  { transform: translateX(0.5px) translateY(-0.6px) rotate(0.15deg); }
+  100% { transform: translateX(0px) translateY(0px) rotate(0deg); }
+}
+
+/* When active = vibration runs */
+.gauge-face.engine-on {
+  animation: gaugeVibrate 0.12s infinite linear;
+}
+
+/* ========== SLIDE IN FROM LEFT → RIGHT ON APPEAR ========== */
+@keyframes gaugeSlideIn {
+  0%   { opacity: 0; transform: translateX(-30px) scale(0.92); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.gauge-slide-start {
+  opacity: 0;
+}
+
+.gauge-slide-in {
+  animation: gaugeSlideIn 0.7s cubic-bezier(.2,.9,.23,1) forwards;
+}
+
 
 /* SVG sizing inside container */
 .gauge-svg {
@@ -990,14 +1018,23 @@ document.querySelectorAll('.thumb').forEach((t,i)=>{
     entries.forEach(en => {
       if(!en.isIntersecting) return;
       const g = en.target;
+      // SLIDE-IN FROM LEFT
+g.classList.remove('gauge-slide-start');
+g.classList.add('gauge-slide-in');
+
+// ENGINE VIBRATION: turn on
+const face = g.querySelector('.gauge-face');
+face.classList.add('engine-on');
+
       // add "active" class = gauge tilts forward while animating
 const face = g.querySelector('.gauge-face');
 face.classList.add('active');
 
-// remove tilt once animation completes
 setTimeout(() => {
-  face.classList.remove('active');
-}, 1100);
+  // stop vibration after animation
+  face.classList.remove('engine-on');
+}, 1800);  // vibration runs ~1.8s (adjust if needed)
+
 
       // animate number
       const numEl = g.querySelector('.gauge-num');
