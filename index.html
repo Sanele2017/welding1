@@ -266,6 +266,110 @@
   .gallery-grid .thumb{ height:140px; border-radius:10px; overflow:hidden; background-size:cover; background-position:center; position:relative; border:1px solid rgba(255,255,255,0.03); cursor:pointer; }
   .thumb::after{ content:""; position:absolute; inset:0; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.35)); opacity:0; transition:opacity .3s; }
   .thumb:hover::after{ opacity:1; }
+/* ======= BOOK GALLERY ======= */
+.gallery-book {
+  padding: 50px 0;
+  text-align: center;
+}
+
+.gallery-book .section-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent2);
+  margin-bottom: 28px;
+  letter-spacing: 1px;
+}
+
+.album {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  perspective: 1800px;
+  display: flex;
+  gap: 0;
+  position: relative;
+}
+
+/* Page shared styles */
+.page {
+  width: 50%;
+  height: 320px;
+  position: relative;
+  transform-origin: left;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.3),
+    inset 0 0 12px rgba(0,0,0,0.4);
+}
+
+/* Book binding line */
+.album::before {
+  content: "";
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #444, #1b1b1b);
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  box-shadow:
+    0 0 12px rgba(0,0,0,0.8),
+    0 0 20px rgba(255,255,255,0.04) inset;
+}
+
+/* Pages on right turn from right side */
+.page.right {
+  transform-origin: left;
+}
+
+/* Left page opens slightly backward */
+.page.left {
+  transform-origin: right;
+}
+
+/* Hover: flip effect */
+.page:hover {
+  transform: rotateY(-18deg) scale(1.02);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.45),
+    inset 0 0 18px rgba(0,0,0,0.5);
+}
+
+/* Images */
+.page img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* RESPONSIVE */
+@media (max-width: 650px) {
+  .album {
+    flex-direction: column;
+    max-width: 95%;
+  }
+
+  .page {
+    width: 100%;
+    height: 250px;
+    transform-origin: center;
+  }
+
+  .page:hover {
+    transform: scale(1.03) rotateY(0deg);
+  }
+
+  .album::before {
+    display: none;
+  }
+}
 
   
 /* ======= STATS GAUGES CSS (add into your main style) ======= */
@@ -656,15 +760,33 @@
 
   <!-- GALLERY -->
   <div class="container">
-    <section id="gallery" class="panel reveal" style="margin-top:26px;">
-      <h2 style="color:var(--accent1); margin-bottom:12px;">Work Gallery</h2>
-      <div class="gallery-grid">
-        <div class="thumb" data-bg="linear-gradient(120deg,#222,#0f0f0f), radial-gradient(circle at 20% 30%, rgba(255,107,0,0.06), transparent)" style="background-image:linear-gradient(120deg,#222,#0f0f0f), radial-gradient(circle at 20% 30%, rgba(255,107,0,0.06), transparent)"></div>
-        <div class="thumb" style="background-image: linear-gradient(180deg,#111,#0b0b0b)"></div>
-        <div class="thumb" style="background-image: linear-gradient(180deg,#141414,#0a0a0a)"></div>
-        <div class="thumb" style="background-image: linear-gradient(180deg,#0a0a0a,#060606)"></div>
-      </div>
-    </section>
+    <!-- ======= GALLERY — BOOK STYLE ALBUM ======= -->
+<section class="gallery-book" id="gallery">
+  <h2 class="section-title">Our Work</h2>
+
+  <div class="album">
+    <!-- Page 1 (Left) -->
+    <div class="page left">
+      <img src="images/work1.jpg" alt="">
+    </div>
+
+    <!-- Page 2 (Right) -->
+    <div class="page right">
+      <img src="images/work2.jpg" alt="">
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page right">
+      <img src="images/work3.jpg" alt="">
+    </div>
+
+    <!-- Page 4 -->
+    <div class="page right">
+      <img src="images/work4.jpg" alt="">
+    </div>
+  </div>
+</section>
+
   </div>
 
   <!-- ABOUT -->
