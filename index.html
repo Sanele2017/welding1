@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Moosa TIG & MIG — Industrial Premium</title>
+<style>
+  /* ---------- RESET ---------- */
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing:antialiased; }
+  :root{
+    --bg:#070707; --panel:#0f0f10; --muted:#bdbdbd;
+    --accent1:#ff6b00; --accent2:#ffab2f; --accent-weak: rgba(255,107,0,0.12);
+    --glass: rgba(255,255,255,0.03);
+    --metal-1:#0b0b0c; --metal-2:#151515;
+    --radius:18px;
+    --maxw:1200px;
+  }
+  body{
+    font-family: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(255,107,0,0.02), transparent 8%),
+                linear-gradient(180deg, #060606 0%, #0a0a0a 100%);
+    color: #eaeaea;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; inset: 0 auto auto 0; top:18px; width:100%;
+    display:flex; justify-content:center; pointer-events:none; z-index:1200;
+  }
+  .nav-wrap{
+    width:calc(100% - 5%); max-width:var(--maxw); display:flex; align-items:center;
+    justify-content:space-between; background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+    border-radius:14px; padding:12px 18px; border:1px solid rgba(255,255,255,0.03); pointer-events:auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+  }
+  .brand{
+    display:flex; gap:14px; align-items:center;
+  }
+  .logo-plate{
+    background: linear-gradient(180deg,#141414,#0c0c0c);
+    padding:8px 12px; border-radius:8px; display:flex; gap:10px; align-items:center;
+    border:1px solid rgba(255,255,255,0.03);
+  }
+  .brand h1{ font-size:18px; letter-spacing:2px; color:var(--accent1); margin-bottom:2px;}
+  .brand p{ font-size:11px; color:var(--muted); margin-top:0; margin-bottom:0}
+
+  nav ul{ display:flex; gap:20px; list-style:none; align-items:center; }
+  nav a{ color:#f1f1f1; text-decoration:none; font-weight:600; font-size:14px; padding:8px 10px; border-radius:8px;}
+  nav a:hover{ color:#fff; background: linear-gradient(90deg, rgba(255,107,0,0.06), transparent); box-shadow: 0 6px 30px rgba(255,107,0,0.06) inset;}
+
+  /* mobile menu toggle */
+  .hamburger{ display:none; width:44px; height:36px; align-items:center; justify-content:center; cursor:pointer; }
+  .hamburger .bar{ width:22px; height:2px; background:linear-gradient(90deg,var(--accent1), var(--accent2)); margin:3px 0; border-radius:2px; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+    padding:120px 20px 60px;
+  }
+  /* metallic plate behind hero */
+  .hero-plate{
+    width:100%; max-width:var(--maxw); background:
+      linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:26px; padding:56px; position:relative; border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 30px 90px rgba(0,0,0,0.7);
+    display:flex; gap:40px; align-items:center; overflow:visible;
+  }
+
+  /* left side: welding art */
+  .art{
+    flex:0 0 48%; min-width:320px; position:relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  /* simulated metal sheet with rivets */
+  .metal-sheet{
+    width:100%; height:420px; border-radius:14px; position:relative;
+    background: linear-gradient(180deg, #131313, #0b0b0b);
+    border: 2px solid rgba(255,255,255,0.03); box-shadow: inset 0 1px 40px rgba(255,107,0,0.02);
+    overflow:hidden;
+  }
+  .rivet{ position:absolute; width:12px; height:12px; background: radial-gradient(circle at 30% 30%, #fff 0%, #b0b0b0 8%, #4a4a4a 70%); border-radius:50%; box-shadow: 0 4px 8px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.05); }
+  .rivet.r1{ top:14px; left:14px } .rivet.r2{ top:14px; right:14px } .rivet.r3{ bottom:14px; left:14px } .rivet.r4{ bottom:14px; right:14px }
+
+  /* welding-arc effect (svg) */
+  .arc-wrap{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+  .arc{
+    width:86%; height:260px; transform:translateY(20px) scale(1);
+    filter: drop-shadow(0 20px 40px rgba(255,107,0,0.12));
+  }
+  .spark-layer{ position:absolute; inset:0; pointer-events:none; }
+
+  /* right side: content */
+  .hero-content{
+    flex:1; color:#eee; padding:6px 6px 6px 0;
+  }
+  .kicker{ color:var(--accent-weak); font-size:13px; letter-spacing:2px; margin-bottom:12px; text-transform:uppercase;}
+  h2.big{
+    font-size:44px; line-height:1.02; letter-spacing:2px; color:linear-gradient;
+    background: linear-gradient(90deg, #fff, var(--accent1)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    margin-bottom:14px;
+    text-shadow: 0 10px 40px rgba(255,107,0,0.06);
+  }
+  p.lead{ color:#d0d0d0; margin-bottom:22px; font-size:15px; max-width:520px; }
+
+  .cta-row{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
+  .btn-cta{
+    padding:12px 22px; border-radius:12px; font-weight:700; font-size:14px; border:none; cursor:pointer;
+    display:inline-flex; gap:10px; align-items:center;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    color:#050505; box-shadow: 0 18px 50px rgba(255,107,0,0.16);
+  }
+  .btn-ghost{
+    padding:12px 18px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); color:#fff; background:transparent;
+    font-weight:600;
+  }
+
+  /* subtle spec badges */
+  .specs{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
+  .chip{ padding:8px 12px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(255,255,255,0.03); color:var(--muted); font-weight:600; font-size:13px }
+
+  /* ---------- SECTION DIVIDER ---------- */
+  .divider {
+    width:100%; display:block; height:38px; margin-top:-10px; transform:translateY(-2px);
+    background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.02) 40%, rgba(255,107,0,0.03) 100%);
+    clip-path: polygon(0 0, 100% 12%, 100% 100%, 0 88%);
+  }
+
+  /* ---------- CONTENT SECTIONS ---------- */
+  main{ padding-bottom:120px; }
+
+  .container{ width:calc(100% - 8%); max-width:var(--maxw); margin:0 auto; padding:60px 0; }
+
+  section.panel{
+    background: linear-gradient(180deg,var(--metal-2), rgba(0,0,0,0.6));
+    border-radius:22px; padding:40px; border:1px solid rgba(255,255,255,0.02);
+    margin-top:28px;
+  }
+
+  .grid{
+    display:grid; gap:28px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px; padding:20px; border:1px solid rgba(255,255,255,0.03);
+    transition: transform .45s cubic-bezier(.2,.9,.23,1), box-shadow .45s;
+  }
+  .card:hover{ transform: translateY(-10px); box-shadow: 0 30px 80px rgba(255,107,0,0.06); border-color: rgba(255,107,0,0.18); }
+
+  .card h3{ color:var(--accent1); margin-bottom:8px; letter-spacing:1px; }
+  .card p{ color:#cfcfcf; font-size:14px; }
+
+  /* wide grid for gallery */
+  .gallery-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-top:18px; }
+  .gallery-grid .thumb{ height:140px; border-radius:10px; overflow:hidden; background-size:cover; background-position:center; position:relative; border:1px solid rgba(255,255,255,0.03); cursor:pointer; }
+  .thumb::after{ content:""; position:absolute; inset:0; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.35)); opacity:0; transition:opacity .3s; }
+  .thumb:hover::after{ opacity:1; }
+
+  /* stats row */
+  .stats{ display:flex; gap:12px; margin-top:14px; flex-wrap:wrap;}
+  .stat{
+    flex:1; min-width:150px; padding:18px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    border:1px solid rgba(255,255,255,0.03); text-align:center;
+  }
+  .stat .num{ font-weight:900; font-size:26px; color:var(--accent2); }
+
+  /* FAQ */
+  .faq{ display:grid; gap:12px; margin-top:16px; }
+  .faq-item{ background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.02); }
+  .faq-item summary{ cursor:pointer; font-weight:700; list-style:none; color:#fff; }
+
+  /* CONTACT */
+  .contact-grid{ display:grid; grid-template-columns: 1fr 420px; gap:30px; align-items:start; }
+  .contact-panel{ padding:22px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(255,255,255,0.03); }
+  form .field{ margin-bottom:12px; }
+  input, textarea{ width:100%; padding:12px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:rgba(255,255,255,0.02); color:#fff; outline:none; }
+  button.submit{ padding:12px 18px; border-radius:10px; border:none; background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#050505; font-weight:800; cursor:pointer; }
+
+  /* FOOTER */
+  footer{ padding:36px 20px; text-align:center; color:var(--muted); margin-top:40px; }
+
+  /* ---------- ANIMATIONS & REVEALS ---------- */
+  .reveal{ opacity:0; transform: translateY(12px); transition: all .8s cubic-bezier(.2,.9,.23,1); }
+  .reveal.visible{ opacity:1; transform:none; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px){
+    .grid{ grid-template-columns: repeat(2,1fr); }
+    .container{ padding:30px 14px; }
+    .hero-plate{ flex-direction:column; padding:28px; gap:18px;}
+    .art{ order:2; width:100% }
+    .hero-content{ order:1; width:100% }
+    .gallery-grid{ grid-template-columns: repeat(2,1fr); }
+    nav ul{ display:none; }
+    .hamburger{ display:flex; pointer-events:auto; }
+    .brand p{ display:none; }
+    .contact-grid{ grid-template-columns: 1fr; }
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  @media (max-width:520px){
+    h2.big{ font-size:26px; }
+    .hero-plate{ padding:18px; border-radius:14px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Decorative small particle canvas (behind everything) -->
+<canvas id="bgCanvas" style="position:fixed; inset:0; z-index:0; pointer-events:none;"></canvas>
+
+<!-- NAV -->
+<header>
+  <div class="nav-wrap">
+    <div class="brand">
+      <div class="logo-plate" aria-hidden="true">
+        <!-- small SVG badge -->
+        <svg width="36" height="36" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect rx="10" width="64" height="64" fill="#0b0b0b"/><path d="M20 42 L28 22 L36 42 Z" fill="#ff6b00"/><circle cx="48" cy="16" r="6" fill="#ffab2f"/></svg>
+      </div>
+      <div>
+        <h1>Moosa TIG & MIG</h1>
+        <p>Industrial Welding & Panelbeating</p>
+      </div>
+    </div>
+
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="hamburger" id="hamb">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero" role="region" aria-label="Hero">
+  <div class="hero-plate reveal">
+    <div class="art">
+      <div class="metal-sheet" aria-hidden="true">
+        <div class="rivet r1"></div><div class="rivet r2"></div><div class="rivet r3"></div><div class="rivet r4"></div>
+
+        <!-- SVG welding arc (animated stroke) -->
+        <div class="arc-wrap">
+          <svg class="arc" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#fff" stop-opacity="0.9"/>
+                <stop offset="0.4" stop-color="#ffefcc" stop-opacity="0.8"/>
+                <stop offset="1" stop-color="#ff6b00" stop-opacity="1"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <path id="arcPath" d="M40 220 Q250 0 500 220 T960 220" fill="none" stroke="url(#g1)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+            <path id="arcTrace" d="M40 220 Q250 0 500 220 T960 220" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 1000" opacity="0.9"/>
+          </svg>
+        </div>
+
+        <div class="spark-layer" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="kicker">Industrial Premium</div>
+      <h2 class="big">Precision Welding. <br />Artisanal Strength.</h2>
+      <p class="lead">Specialists in TIG, MIG and structural welding — mobile service & workshop repairs. We blend modern technique with old-school craft to give your project both beauty and strength.</p>
+
+      <div class="cta-row">
+        <button class="btn-cta" id="quoteBtn">Request Quote
+          <svg width="16" height="16" viewBox="0 0 24 24" style="margin-left:6px"><path fill="#040404" d="M12 2 L12 22 M2 12 L22 12"/></svg>
+        </button>
+        <a class="btn-ghost" href="#gallery">View Work</a>
+      </div>
+
+      <div class="specs">
+        <span class="chip">TIG • MIG • CO₂</span>
+        <span class="chip">Mobile Service</span>
+        <span class="chip">Custom Fabrication</span>
+      </div>
+
+      <div class="stats" style="margin-top:18px;">
+        <div class="stat">
+          <div class="num" data-target="520">0</div>
+          <div style="font-weight:700; color:#cfcfcf; margin-top:6px;">Projects</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-target="12">0</div>
+          <div style="font-weight:700; color:#cfcfcf; margin-top:6px;">Years</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-target="98">0</div>
+          <div style="font-weight:700; color:#cfcfcf; margin-top:6px;">Satisfaction %</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="divider" aria-hidden="true"></div>
+
+<main>
+
+  <!-- SERVICES -->
+  <div class="container">
+    <section id="services" class="panel reveal">
+      <h2 style="color:var(--accent1); margin-bottom:16px;">Our Services</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Precision TIG Welding</h3>
+          <p>Thin-gauge stainless and aluminium welds for cosmetic & critical joints. Smooth finish, high tolerance.</p>
+        </div>
+        <div class="card">
+          <h3>MIG / CO₂ Welding</h3>
+          <p>Robust joins for automotive frames, chassis work and structural repairs with maximum efficiency.</p>
+        </div>
+        <div class="card">
+          <h3>Panelbeating & Restoration</h3>
+          <p>Accident repair, panel alignment, dent removal, and full body restoration with paint-ready finishes.</p>
+        </div>
+
+        <div class="card">
+          <h3>Custom Fabrication</h3>
+          <p>Bespoke gates, trailers, brackets and industrial machinery parts — CAD-to-metal collaborations available.</p>
+        </div>
+        <div class="card">
+          <h3>Exhaust & Mechanical Repair</h3>
+          <p>Custom and replacement exhaust sections, muffler mods, and stainless fabrication for longevity & sound.</p>
+        </div>
+        <div class="card">
+          <h3>On-site Mobile Welding</h3>
+          <p>Fully equipped van for farm, industrial and roadside welding — we come to you for emergency & scheduled jobs.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="container">
+    <section id="gallery" class="panel reveal" style="margin-top:26px;">
+      <h2 style="color:var(--accent1); margin-bottom:12px;">Work Gallery</h2>
+      <div class="gallery-grid">
+        <div class="thumb" data-bg="linear-gradient(120deg,#222,#0f0f0f), radial-gradient(circle at 20% 30%, rgba(255,107,0,0.06), transparent)" style="background-image:linear-gradient(120deg,#222,#0f0f0f), radial-gradient(circle at 20% 30%, rgba(255,107,0,0.06), transparent)"></div>
+        <div class="thumb" style="background-image: linear-gradient(180deg,#111,#0b0b0b)"></div>
+        <div class="thumb" style="background-image: linear-gradient(180deg,#141414,#0a0a0a)"></div>
+        <div class="thumb" style="background-image: linear-gradient(180deg,#0a0a0a,#060606)"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="container">
+    <section id="about" class="panel reveal" style="margin-top:26px;">
+      <h2 style="color:var(--accent1); margin-bottom:12px;">About Moosa Welding</h2>
+      <p style="color:var(--muted); max-width:900px;">
+        Moosa TIG & MIG blends decades of welding knowledge, industrial discipline and pixel-precise technique.
+        We service individual vehicles, farms and industrial partners with highly durable work and show-ready finishes.
+        Our philosophy is simple: deliver with integrity, use the right method for the job, and make metal that lasts.
+      </p>
+
+      <div style="display:flex; gap:18px; margin-top:18px; flex-wrap:wrap;">
+        <div class="card" style="flex:1; min-width:220px;">
+          <h3>Certified Welders</h3>
+          <p>Our team holds industry certifications and continuous skills training.</p>
+        </div>
+        <div class="card" style="flex:1; min-width:220px;">
+          <h3>Modern Workshop</h3>
+          <p>State-of-the-art equipment, safety-first procedures and quality control checks on every job.</p>
+        </div>
+        <div class="card" style="flex:1; min-width:220px;">
+          <h3>Fast Turnaround</h3>
+          <p>We balance speed and quality — and communicate realistic ETA's before starting work.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="container">
+    <section class="panel reveal" style="margin-top:26px;">
+      <h2 style="color:var(--accent1); margin-bottom:12px;">How It Works</h2>
+      <div style="display:flex; gap:18px; flex-wrap:wrap;">
+        <div class="card" style="flex:1; min-width:220px;">
+          <h3>1 • Request</h3>
+          <p>Send images or details — we provide a clear quote.</p>
+        </div>
+        <div class="card" style="flex:1; min-width:220px;">
+          <h3>2 • Inspect</h3>
+          <p>Workshop or mobile inspection to confirm scope and timing.</p>
+        </div>
+        <div class="card" style="flex:1; min-width:220px;">
+          <h3>3 • Fabricate</h3>
+          <p>Work begins using the optimum welding method for durability and finish.</p>
+        </div>
+        <div class="card" style="flex:1; min-width:220px;">
+          <h3>4 • Finish</h3>
+          <p>Final inspections, polish and paint where required.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FAQ & TESTIMONIALS -->
+  <div class="container">
+    <section class="panel reveal" style="margin-top:26px;">
+      <div style="display:flex; gap:22px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:280px;">
+          <h2 style="color:var(--accent1)">Faqs</h2>
+          <div class="faq">
+            <details class="faq-item"><summary>Do you offer mobile welding?</summary><div style="margin-top:8px;color:var(--muted)">Yes — fully equipped van for on-site jobs and emergencies.</div></details>
+            <details class="faq-item"><summary>How long does a repair take?</summary><div style="margin-top:8px;color:var(--muted)">Varies by job: small repairs same-day, panel/paint repairs 1–7 days depending on complexity.</div></details>
+            <details class="faq-item"><summary>What materials do you weld?</summary><div style="margin-top:8px;color:var(--muted)">Mild steel, stainless steel and aluminium (TIG for thin aluminium).</div></details>
+          </div>
+        </div>
+
+        <div style="flex:1; min-width:280px;">
+          <h2 style="color:var(--accent1)">Testimonials</h2>
+          <div class="card" style="margin-top:8px;">
+            <p style="font-weight:700;">"Quick, clean and honest — they saved my trailer."</p>
+            <p style="color:var(--muted); margin-top:8px;">— S. Maphosa</p>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <p style="font-weight:700;">"Professional finish, excellent communication."</p>
+            <p style="color:var(--muted); margin-top:8px;">— L. Naidoo</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="container">
+    <section id="contact" class="panel reveal" style="margin-top:26px;">
+      <h2 style="color:var(--accent1); margin-bottom:12px;">Contact & Quote</h2>
+
+      <div class="contact-grid">
+        <div class="contact-panel">
+          <h3 style="color:#fff">Get in touch</h3>
+          <p style="color:var(--muted)">Send a message, attach photos and we'll reply with a clear quote.</p>
+          <div style="margin-top:12px;">
+            <div class="contact-info-box">
+              <strong>📍 Workshop:</strong> Johannesburg, Gauteng
+            </div>
+            <div class="contact-info-box" style="margin-top:8px;">
+              <strong>📞 Call/WhatsApp:</strong> +27 63 000 0000
+            </div>
+            <div class="contact-info-box" style="margin-top:8px;">
+              <strong>✉️ Email:</strong> info@moosawelding.co.za
+            </div>
+          </div>
+        </div>
+
+        <form id="contactForm" class="contact-panel" style="display:flex; flex-direction:column;">
+          <div class="field"><input id="name" placeholder="Full name" required></div>
+          <div class="field"><input id="email" placeholder="Email" type="email" required></div>
+          <div class="field"><input id="phone" placeholder="Phone"></div>
+          <div class="field"><textarea id="message" placeholder="Message & photos (links)" rows="5"></textarea></div>
+          <button class="submit" type="submit">Send Request</button>
+        </form>
+      </div>
+
+    </section>
+  </div>
+
+</main>
+
+<footer>
+  <div style="max-width:var(--maxw); margin:0 auto; display:flex; gap:20px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+    <div style="display:flex; gap:12px; align-items:center;">
+      <svg width="36" height="36" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect rx="10" width="64" height="64" fill="#0b0b0b"/><path d="M20 42 L28 22 L36 42 Z" fill="#ff6b00"/><circle cx="48" cy="16" r="6" fill="#ffab2f"/></svg>
+      <div>
+        <div style="font-weight:800; color:#fff;">Moosa TIG & MIG</div>
+        <div style="font-size:13px; color:var(--muted)">Industrial Welding & Panelbeating</div>
+      </div>
+    </div>
+    <div style="color:var(--muted); font-size:13px;">© <span id="yr"></span> Moosa TIG & MIG — All rights reserved</div>
+  </div>
+</footer>
+
+<!-- ---------- SCRIPTS ---------- -->
+<script>
+/* --- CURRENT YEAR --- */
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* --- SIMPLE MOBILE MENU (toggle nav links by cloning) --- */
+const hamb = document.getElementById('hamb');
+hamb && hamb.addEventListener('click', () => {
+  const ul = document.querySelector('nav ul');
+  if(!ul) return;
+  if(window.getComputedStyle(ul).display === 'none') {
+    ul.style.display = 'flex';
+    ul.style.position = 'absolute';
+    ul.style.top = '64px';
+    ul.style.right = '22px';
+    ul.style.flexDirection = 'column';
+    ul.style.background = 'linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.92))';
+    ul.style.padding = '12px';
+    ul.style.borderRadius = '12px';
+    ul.style.zIndex = '1400';
+  } else {
+    ul.style.display = 'none';
+  }
+});
+
+/* --- BACKGROUND PARTICLES (canvas) --- */
+(function(){
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let w=canvas.width=innerWidth, h=canvas.height=innerHeight;
+  const sparks = [];
+  for(let i=0;i<90;i++){
+    sparks.push({
+      x: Math.random()*w, y: Math.random()*h,
+      r: Math.random()*1.6 + 0.4,
+      vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2,
+      alpha: Math.random()*0.7 + 0.06,
+      glow: Math.random()*18 + 6
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(const s of sparks){
+      ctx.beginPath();
+      ctx.globalAlpha = s.alpha;
+      const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.glow);
+      g.addColorStop(0, 'rgba(255,160,80,0.9)');
+      g.addColorStop(0.2, 'rgba(255,110,30,0.7)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fill();
+      s.x += s.vx; s.y += s.vy;
+      if(s.x<0||s.x>w) s.x = Math.random()*w;
+      if(s.y<0||s.y>h) s.y = Math.random()*h;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+  addEventListener('resize', () => { w=canvas.width=innerWidth; h=canvas.height=innerHeight; });
+})();
+
+/* --- ARC ANIMATION (stroke-dash) --- */
+(function(){
+  const trace = document.getElementById('arcTrace');
+  const len = trace.getTotalLength();
+  trace.style.strokeDasharray = `${len} ${len}`;
+  trace.style.strokeDashoffset = len;
+  trace.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.2,.9,.23,1)';
+  setTimeout(()=>{ trace.style.strokeDashoffset = '0'; }, 600);
+
+  // periodic small "spark" bursts along arc
+  const sparkLayer = document.querySelector('.spark-layer');
+  function emitSparks(){
+    for(let i=0;i<8;i++){
+      const el = document.createElement('div');
+      el.style.position='absolute';
+      const x = Math.random()*100; const y = Math.random()*60 + 80;
+      el.style.left = `${x}%`; el.style.top = `${y}%`;
+      el.style.width = el.style.height = `${Math.random()*6 + 2}px`;
+      el.style.borderRadius='50%';
+      el.style.background = 'radial-gradient(circle, #fff, #ffdbb3 40%, rgba(255,107,0,0.6) 60%)';
+      el.style.opacity = '0.95';
+      el.style.transform = 'translate(-50%,-50%)';
+      el.style.boxShadow = '0 6px 26px rgba(255,107,0,0.22)';
+      sparkLayer.appendChild(el);
+      setTimeout(()=>{ el.style.transition='all 700ms ease'; el.style.opacity=0; el.style.transform='translate(-50%,-50%) scale(2)'; }, 40);
+      setTimeout(()=>el.remove(), 900);
+    }
+  }
+  setInterval(emitSparks, 1800);
+})();
+
+/* --- REVEAL ON SCROLL --- */
+(function(){
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(node => io.observe(node));
+
+  // counters
+  const counters = document.querySelectorAll('.num');
+  counters.forEach(c=>{
+    const t = +c.getAttribute('data-target');
+    let v=0;
+    function step(){
+      const inc = Math.max(1, Math.floor(t/60));
+      v += inc;
+      if(v >= t){ c.textContent = t; } else { c.textContent = v; requestAnimationFrame(step); }
+    }
+    // trigger when visible
+    io.observe(c);
+    // when visible, start counting
+    const obs = new IntersectionObserver((ents, o)=>{
+      ents.forEach(en=>{
+        if(en.isIntersecting){
+          step(); o.unobserve(en.target);
+        }
+      });
+    }, {threshold:0.4});
+    obs.observe(c);
+  });
+})();
+
+/* --- LIGHTWEIGHT FORM SUBMIT (demo) --- */
+document.getElementById('contactForm')?.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const btn = e.target.querySelector('.submit');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  setTimeout(()=>{ btn.textContent='Sent — We will reply shortly'; btn.style.background='linear-gradient(90deg,#4fbf4f,#2fa02f)'; }, 900);
+});
+
+/* --- gallery thumbs click (simple modal) --- */
+document.querySelectorAll('.thumb').forEach((t,i)=>{
+  t.addEventListener('click', ()=>{
+    const modal = document.createElement('div');
+    modal.style.position='fixed'; modal.style.inset=0; modal.style.background='rgba(0,0,0,0.86)'; modal.style.display='flex'; modal.style.alignItems='center'; modal.style.justifyContent='center'; modal.style.zIndex=1600;
+    const img = document.createElement('div'); img.style.width='80%'; img.style.maxWidth='900px'; img.style.height='60vh'; img.style.borderRadius='12px';
+    img.style.background = t.style.backgroundImage; img.style.backgroundSize='cover'; img.style.backgroundPosition='center';
+    img.style.boxShadow='0 40px 120px rgba(0,0,0,0.8)';
+    modal.appendChild(img);
+    modal.addEventListener('click', ()=> modal.remove());
+    document.body.appendChild(modal);
+  });
+});
+</script>
+</body>
+</html>
