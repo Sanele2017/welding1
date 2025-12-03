@@ -289,7 +289,34 @@
   gap: 0;
   position: relative;
 }
+/* curl layer */
+.page::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(
+      circle at 100% 100%,
+      rgba(0,0,0,0.35) 0%,
+      rgba(0,0,0,0.25) 30%,
+      rgba(0,0,0,0.10) 55%,
+      rgba(0,0,0,0.0) 80%
+  );
+  opacity: 0;
+  transform-origin: 100% 100%;
+  transform: rotate(-8deg) scale(0.7);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  border-bottom-right-radius: 10px;
+}
 
+/* On hover: curl deepens */
+.page:hover::after {
+  opacity: 1;
+  transform: rotate(-18deg) scale(1);
+}
 /* Page shared styles */
 .page {
   width: 50%;
