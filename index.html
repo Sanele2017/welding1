@@ -342,6 +342,17 @@
   transition: transform 1.1s cubic-bezier(.2,.9,.23,1);
   filter: drop-shadow(0 6px 12px rgba(255,107,0,0.08));
 }
+  /* Gauge movement / tilt animation */
+.gauge-face {
+  transform-origin: center;
+  transform: perspective(600px) rotateX(0deg);
+  transition: transform 0.9s cubic-bezier(.2,.9,.23,1);
+}
+
+.gauge-face.active {
+  transform: perspective(600px) rotateX(6deg);
+}
+
 
 /* text */
 .gauge-text { text-align:center; margin-top:4px; }
@@ -979,6 +990,15 @@ document.querySelectorAll('.thumb').forEach((t,i)=>{
     entries.forEach(en => {
       if(!en.isIntersecting) return;
       const g = en.target;
+      // add "active" class = gauge tilts forward while animating
+const face = g.querySelector('.gauge-face');
+face.classList.add('active');
+
+// remove tilt once animation completes
+setTimeout(() => {
+  face.classList.remove('active');
+}, 1100);
+
       // animate number
       const numEl = g.querySelector('.gauge-num');
       const target = g._target;
