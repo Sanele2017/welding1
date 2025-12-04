@@ -565,8 +565,272 @@
     display: none;
   }
 }
+/* =========================================
+   HOLOGRAPHIC GALLERY UPGRADE
+========================================= */
 
-  
+.gallery-holo {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.holo-album {
+  position: relative;
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+  perspective: 2000px;
+}
+
+/* glowing metal spine */
+.holo-spine {
+  width: 8px;
+  background: linear-gradient(180deg,#303030,#111);
+  border-radius: 6px;
+  box-shadow:
+    0 0 18px rgba(255,140,50,0.16),
+    inset 0 0 12px rgba(255,255,255,0.05);
+}
+
+/* Pages */
+.holo-page {
+  width: 50%;
+  height: 320px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  transition:
+    transform 0.55s cubic-bezier(.2,.9,.23,1),
+    box-shadow 0.55s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+
+  background: linear-gradient(180deg,#1a1a1a,#0e0e0e);
+}
+
+.holo-page.left  { margin-right: -4px; }
+.holo-page.right { margin-left: -4px; }
+
+/* image */
+.holo-page img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* holographic glow overlay */
+.holo-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(255,130,40,0.12),
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+
+/* neon edge light */
+.edge-light {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255,150,60,0.4),
+    rgba(255,70,20,0.2),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+
+/* Hover — deep tilt + glow */
+.holo-page:hover {
+  transform: rotateY(-18deg) scale(1.05);
+  box-shadow:
+    0 22px 60px rgba(0,0,0,0.5),
+    inset 0 0 40px rgba(0,0,0,0.4);
+}
+
+.holo-page:hover .holo-glow {
+  opacity: 1;
+}
+
+.holo-page:hover .edge-light {
+  opacity: 1;
+}
+
+/* Cursor-based tilt */
+.holo-album[data-interactive="true"] .holo-page {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+@media (max-width: 650px) {
+  .holo-album { flex-direction: column; }
+  .holo-page {
+    width: 100%;
+    margin: 8px 0 !important;
+    height: 250px;
+  }
+}
+
+  /* =========================================
+   CINEMATIC ABOUT SECTION
+========================================= */
+
+.about-cinematic {
+  padding: 70px 0;
+}
+
+.about-title {
+  color: var(--accent1);
+  font-size: 38px;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.about-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 38px;
+  align-items: center;
+}
+
+/* ---------- TIMELINE ---------- */
+
+.about-timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline-rod {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, #ff8a28, #ff6b00, #1a1a1a);
+  border-radius: 6px;
+  box-shadow: 
+    0 0 18px rgba(255,110,40,0.25),
+    inset 0 0 12px rgba(255,255,255,0.08);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 36px;
+  padding-left: 20px;
+}
+
+.timeline-item:last-child { margin-bottom: 0; }
+
+.t-dot {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #fff, #ffb36a 40%, #ff6b00 70%);
+  border-radius: 50%;
+  position: absolute;
+  left: -32px;
+  top: 4px;
+  box-shadow:
+    0 0 14px rgba(255,110,40,0.4),
+    inset 0 0 6px rgba(255,255,255,0.6);
+}
+
+.timeline-item h3 {
+  color: var(--accent2);
+  font-size: 20px;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.timeline-item p {
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 15px;
+}
+
+/* ---------- RIGHT: CINEMATIC MEDIA FRAME ---------- */
+
+.media-frame {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg,#1a1a1a,#0c0c0c);
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.7),
+    inset 0 0 30px rgba(255,255,255,0.04);
+  transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.media-frame:hover {
+  transform: perspective(1200px) rotateX(6deg) rotateY(-8deg);
+  box-shadow: 
+    0 30px 80px rgba(0,0,0,0.8),
+    inset 0 0 40px rgba(255,255,255,0.06);
+}
+
+/* Rivets */
+.frame-rivet {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, #ffffff, #b5b5b5 40%, #3a3a3a 80%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+}
+
+.r1 { top: 12px; left: 12px; }
+.r2 { top: 12px; right: 12px; }
+.r3 { bottom: 12px; left: 12px; }
+.r4 { bottom: 12px; right: 12px; }
+
+/* Media content */
+.media-img,
+.about-media video {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Glow overlay */
+.media-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(255,110,40,0.13),
+    transparent 75%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.media-frame:hover .media-glow {
+  opacity: 1;
+}
+
+@media (max-width: 980px) {
+  .about-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ======= STATS GAUGES CSS (add into your main style) ======= */
 .stats-gauges {
   display: grid;
@@ -679,12 +943,282 @@
   .gauge-svg { width:78px; height:78px; }
 }
 
+/* =========================================
+   INDUSTRIAL PROCESS PIPELINE
+========================================= */
+
+.process-pipeline {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.process-title {
+  font-size: 38px;
+  letter-spacing: 2px;
+  color: var(--accent1);
+  margin-bottom: 50px;
+}
+
+/* PIPELINE WRAP */
+.pipeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+/* ---------- STAGE (NODE + LABEL) ---------- */
+
+.stage {
+  position: relative;
+  width: 210px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.stage-node {
+  width: 26px;
+  height: 26px;
+  background: radial-gradient(circle, #fff, #ffb582 40%, #ff6b00 80%);
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow:
+    0 0 18px rgba(255,110,0,0.4),
+    inset 0 0 12px rgba(255,255,255,0.7);
+}
+
+/* ICON */
+.stage-icon {
+  width: 90px;
+  height: 90px;
+  margin: 18px auto;
+  background: linear-gradient(180deg, #1c1c1c, #0d0d0d);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    inset 0 0 24px rgba(0,0,0,0.55),
+    0 14px 40px rgba(0,0,0,0.55),
+    0 0 18px rgba(255,110,0,0.18);
+
+  transition: 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.stage-icon img {
+  width: 42px;
+  height: 42px;
+  filter: drop-shadow(0 4px 12px rgba(255,110,0,0.25));
+  transition: transform 0.4s ease;
+}
+
+/* Glow on hover */
+.stage:hover .stage-icon {
+  box-shadow:
+    inset 0 0 32px rgba(255,255,255,0.12),
+    0 22px 60px rgba(0,0,0,0.7),
+    0 0 28px rgba(255,110,0,0.45);
+}
+
+.stage:hover .stage-icon img {
+  transform: rotate(12deg) scale(1.08);
+}
+
+/* STAGE TEXT */
+.stage h3 {
+  font-size: 20px;
+  color: var(--accent2);
+  margin-bottom: 6px;
+}
+
+.stage p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ---------- RAIL ---------- */
+
+.rail {
+  width: 130px;
+  height: 6px;
+  background: linear-gradient(90deg, #1a1a1a, #0c0c0c);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.04);
+
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.03);
+}
+
+/* flowing pulse */
+.rail-pulse {
+  position: absolute;
+  left: -40px;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,110,0,0.8),
+    transparent
+  );
+  filter: blur(2px);
+  animation: pulseMove 1.7s linear infinite;
+}
+
+@keyframes pulseMove {
+  0% { left: -50px; }
+  100% { left: 140px; }
+}
+
+@media (max-width: 980px) {
+  .pipeline {
+    flex-direction: column;
+  }
+  .rail {
+    width: 8px;
+    height: 110px;
+  }
+  .rail-pulse {
+    width: 100%;
+    height: 30px;
+    animation: verticalPulse 1.6s linear infinite;
+  }
+}
+
+@keyframes verticalPulse {
+  0% { top: -40px; }
+  100% { top: 140px; }
+}
 
   /* FAQ */
   .faq{ display:grid; gap:12px; margin-top:16px; }
   .faq-item{ background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.02); }
   .faq-item summary{ cursor:pointer; font-weight:700; list-style:none; color:#fff; }
 
+  /* =========================================
+   INDUSTRIAL FAQ ACCORDION
+========================================= */
+
+.faq-industrial {
+  padding: 80px 0;
+}
+
+.faq-title {
+  text-align: center;
+  font-size: 38px;
+  letter-spacing: 2px;
+  color: var(--accent1);
+  margin-bottom: 40px;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+/* ---------- FAQ ITEM (STEEL PLATE) ---------- */
+
+.faq-item {
+  background: linear-gradient(180deg, #1c1c1c, #0d0d0d);
+  border: 2px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 
+    inset 0 0 30px rgba(255,255,255,0.03),
+    0 18px 50px rgba(0,0,0,0.6);
+}
+
+.faq-header {
+  width: 100%;
+  padding: 18px 26px;
+  font-size: 18px;
+  color: var(--accent2);
+  letter-spacing: .5px;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  position: relative;
+}
+
+/* glowing weld seam on top */
+.faq-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6a00, #ffa45b, #ff6a00);
+  opacity: .2;
+  transition: .4s ease;
+}
+
+.faq-icon {
+  font-size: 28px;
+  color: #ff8b3c;
+  transition: transform .4s ease;
+}
+
+/* ---------- BODY ---------- */
+
+.faq-body {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 26px;
+  background: linear-gradient(180deg,#0e0e0e,#070707);
+  transition: max-height .45s ease, padding .45s ease;
+}
+
+.faq-body p {
+  padding: 14px 0 26px 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* OPENED STATE */
+.faq-item.open .faq-body {
+  max-height: 300px;
+  padding: 10px 26px 26px 26px;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+  color: #ffb878;
+}
+
+.faq-item.open .faq-header::after {
+  opacity: 0.55;
+  height: 4px;
+}
+
+/* PRESS + VIBRATION EFFECT */
+.faq-item.open {
+  animation: pressPulse .25s ease;
+}
+
+@keyframes pressPulse {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+  
+  
   /* CONTACT */
   .contact-grid{ display:grid; grid-template-columns: 1fr 420px; gap:30px; align-items:start; }
   .contact-panel{ padding:22px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(255,255,255,0.03); }
@@ -816,6 +1350,187 @@
 /* responsive */
 @media (max-width: 980px){
   .contact-grid { grid-template-columns: 1fr; gap:20px; }
+}
+/* =========================================
+   CONTACT TERMINAL (GLASS UI + STEEL PANEL)
+========================================= */
+
+.contact-terminal {
+  padding: 80px 0;
+}
+
+.contact-title {
+  font-size: 38px;
+  text-align: center;
+  letter-spacing: 2px;
+  color: var(--accent1);
+  margin-bottom: 50px;
+}
+
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ----------- GLASS FORM PANEL ----------- */
+
+.contact-form-panel {
+  display: flex;
+  justify-content: center;
+}
+
+.glass-frame {
+  width: 100%;
+  padding: 30px;
+  border-radius: 22px;
+
+  backdrop-filter: blur(14px);
+  background: rgba(255,255,255,0.05);
+
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 0 30px rgba(255,255,255,0.04),
+    0 0 30px rgba(255,120,0,0.12);
+}
+
+.form-title {
+  font-size: 24px;
+  color: var(--accent2);
+  margin-bottom: 18px;
+}
+
+/* Glass form fields */
+.glass-form input,
+.glass-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+
+  transition: border .3s ease, box-shadow .3s ease;
+}
+
+.glass-form input:focus,
+.glass-form textarea:focus {
+  border-color: rgba(255,120,0,0.8);
+  box-shadow: 0 0 16px rgba(255,120,0,0.4);
+}
+
+.glass-form textarea {
+  height: 120px;
+  resize: none;
+}
+
+.send-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  background: linear-gradient(90deg, #ff7a00, #ff4e00);
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 1px;
+
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.send-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,120,0,0.5);
+}
+
+/* ----------- STEEL INFO PLATE ----------- */
+
+.steel-plate {
+  padding: 26px;
+  margin-bottom: 22px;
+
+  border-radius: 20px;
+  background: linear-gradient(180deg, #1e1e1e, #0d0d0d);
+
+  border: 2px solid rgba(255,255,255,0.06);
+  box-shadow:
+    inset 0 0 20px rgba(255,255,255,0.05),
+    0 18px 48px rgba(0,0,0,0.55);
+}
+
+.steel-plate h3 {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: var(--accent2);
+}
+
+.info-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.info-line .label {
+  color: #aaa;
+}
+
+.info-line .value {
+  color: #fff;
+}
+
+/* ----------- MAP PANEL ----------- */
+
+.map-frame {
+  position: relative;
+  height: 260px;
+  border-radius: 18px;
+
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.06);
+  box-shadow:
+    inset 0 0 25px rgba(255,255,255,0.03),
+    0 20px 50px rgba(0,0,0,0.55);
+}
+
+.map-frame iframe {
+  width: 100%;
+  height: 100%;
+  filter: grayscale(40%) brightness(0.85) contrast(1.1);
+}
+
+/* Location ping */
+.map-ping {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  background: #ff6a00;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  box-shadow: 0 0 12px rgba(255,110,0,0.7);
+
+  animation: ping 1.4s infinite ease-out;
+}
+
+@keyframes ping {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 950px) {
+  .contact-wrap {
+    grid-template-columns: 1fr;
+  }
 }
 
 
@@ -1066,29 +1781,41 @@
   <!-- GALLERY -->
   <div class="container">
     <!-- ======= GALLERY — BOOK STYLE ALBUM ======= -->
-<section class="gallery-book" id="gallery">
+<section class="gallery-holo" id="gallery">
   <h2 class="section-title">Our Work</h2>
 
-  <div class="album">
-    <!-- Page 1 (Left) -->
-    <div class="page left">
-      <img src="images/work1.jpg" alt="">
+  <div class="holo-album" data-interactive="true">
+
+    <div class="holo-spine"></div>
+
+    <!-- Page 1 -->
+    <div class="holo-page left">
+      <img src="images/work1.jpg" alt="Work 1">
+      <div class="holo-glow"></div>
+      <div class="edge-light"></div>
     </div>
 
-    <!-- Page 2 (Right) -->
-    <div class="page right">
-      <img src="images/work2.jpg" alt="">
+    <!-- Page 2 -->
+    <div class="holo-page right">
+      <img src="images/work2.jpg" alt="Work 2">
+      <div class="holo-glow"></div>
+      <div class="edge-light"></div>
     </div>
 
     <!-- Page 3 -->
-    <div class="page right">
-      <img src="images/work3.jpg" alt="">
+    <div class="holo-page right">
+      <img src="images/work3.jpg" alt="Work 3">
+      <div class="holo-glow"></div>
+      <div class="edge-light"></div>
     </div>
 
     <!-- Page 4 -->
-    <div class="page right">
-      <img src="images/work4.jpg" alt="">
+    <div class="holo-page right">
+      <img src="images/work4.jpg" alt="Work 4">
+      <div class="holo-glow"></div>
+      <div class="edge-light"></div>
     </div>
+
   </div>
 </section>
 
@@ -1096,119 +1823,241 @@
 
   <!-- ABOUT -->
   <div class="container">
-    <section id="about" class="panel reveal" style="margin-top:26px;">
-      <h2 style="color:var(--accent1); margin-bottom:12px;">About Moosa Welding</h2>
-      <p style="color:var(--muted); max-width:900px;">
-        Moosa TIG & MIG blends decades of welding knowledge, industrial discipline and pixel-precise technique.
-        We service individual vehicles, farms and industrial partners with highly durable work and show-ready finishes.
-        Our philosophy is simple: deliver with integrity, use the right method for the job, and make metal that lasts.
-      </p>
+    <section id="about" class="about-cinematic reveal">
+  <h2 class="about-title">About Moosa Welding</h2>
 
-      <div style="display:flex; gap:18px; margin-top:18px; flex-wrap:wrap;">
-        <div class="card" style="flex:1; min-width:220px;">
-          <h3>Certified Welders</h3>
-          <p>Our team holds industry certifications and continuous skills training.</p>
-        </div>
-        <div class="card" style="flex:1; min-width:220px;">
-          <h3>Modern Workshop</h3>
-          <p>State-of-the-art equipment, safety-first procedures and quality control checks on every job.</p>
-        </div>
-        <div class="card" style="flex:1; min-width:220px;">
-          <h3>Fast Turnaround</h3>
-          <p>We balance speed and quality — and communicate realistic ETA's before starting work.</p>
-        </div>
+  <div class="about-wrap">
+
+    <!-- LEFT : METAL TIMELINE -->
+    <div class="about-timeline">
+
+      <div class="timeline-rod"></div>
+
+      <div class="timeline-item">
+        <div class="t-dot"></div>
+        <h3>Founded on Craft</h3>
+        <p>Established with a mission to blend precision TIG/MIG technique with durable fabrication.</p>
       </div>
-    </section>
+
+      <div class="timeline-item">
+        <div class="t-dot"></div>
+        <h3>Industrial Growth</h3>
+        <p>Expanded into structural welding, chassis repairs and farm equipment strengthening.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="t-dot"></div>
+        <h3>Modern Workshop</h3>
+        <p>Upgraded to advanced tools, safety systems, and strict QC processes.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="t-dot"></div>
+        <h3>Mobile Expertise</h3>
+        <p>Fully equipped mobile rigs for emergency or on-site industrial work.</p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT : STEEL CINEMATIC FRAME -->
+    <div class="about-media">
+      <div class="media-frame">
+        <div class="frame-rivet r1"></div>
+        <div class="frame-rivet r2"></div>
+        <div class="frame-rivet r3"></div>
+        <div class="frame-rivet r4"></div>
+
+        <!-- You may swap this image for a video loop -->
+        <img src="images/work1.jpg" alt="Workshop" class="media-img">
+        <div class="media-glow"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
   </div>
 
   <!-- PROCESS -->
   <div class="container">
-    <section class="panel reveal" style="margin-top:26px;">
-      <h2 style="color:var(--accent1); margin-bottom:12px;">How It Works</h2>
-      <div style="display:flex; gap:18px; flex-wrap:wrap;">
-        <div class="card" style="flex:1; min-width:220px;">
-          <h3>1 • Request</h3>
-          <p>Send images or details — we provide a clear quote.</p>
-        </div>
-        <div class="card" style="flex:1; min-width:220px;">
-          <h3>2 • Inspect</h3>
-          <p>Workshop or mobile inspection to confirm scope and timing.</p>
-        </div>
-        <div class="card" style="flex:1; min-width:220px;">
-          <h3>3 • Fabricate</h3>
-          <p>Work begins using the optimum welding method for durability and finish.</p>
-        </div>
-        <div class="card" style="flex:1; min-width:220px;">
-          <h3>4 • Finish</h3>
-          <p>Final inspections, polish and paint where required.</p>
-        </div>
+    <section class="process-pipeline reveal" id="process">
+  <h2 class="process-title">How It Works</h2>
+
+  <div class="pipeline">
+
+    <!-- STAGE 1 -->
+    <div class="stage">
+      <div class="stage-node"></div>
+      <div class="stage-icon">
+        <img src="icons/request.svg" alt="">
       </div>
-    </section>
+      <h3>1 • Request</h3>
+      <p>Send photos or details — we reply quickly with a precise quote.</p>
+    </div>
+
+    <!-- RAIL -->
+    <div class="rail">
+      <div class="rail-pulse"></div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div class="stage">
+      <div class="stage-node"></div>
+      <div class="stage-icon">
+        <img src="icons/inspect.svg" alt="">
+      </div>
+      <h3>2 • Inspect</h3>
+      <p>Workshop or mobile inspection to confirm work requirements.</p>
+    </div>
+
+    <!-- RAIL -->
+    <div class="rail">
+      <div class="rail-pulse"></div>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div class="stage">
+      <div class="stage-node"></div>
+      <div class="stage-icon">
+        <img src="icons/fabricate.svg" alt="">
+      </div>
+      <h3>3 • Fabricate</h3>
+      <p>Welding begins using the right method for strength + finish.</p>
+    </div>
+
+    <!-- RAIL -->
+    <div class="rail">
+      <div class="rail-pulse"></div>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div class="stage">
+      <div class="stage-node"></div>
+      <div class="stage-icon">
+        <img src="icons/finish.svg" alt="">
+      </div>
+      <h3>4 • Finish</h3>
+      <p>Quality checks, polishing and final presentation.</p>
+    </div>
+
+  </div>
+</section>
+
   </div>
 
   <!-- FAQ & TESTIMONIALS -->
   <div class="container">
-    <section class="panel reveal" style="margin-top:26px;">
-      <div style="display:flex; gap:22px; flex-wrap:wrap;">
-        <div style="flex:1; min-width:280px;">
-          <h2 style="color:var(--accent1)">Faqs</h2>
-          <div class="faq">
-            <details class="faq-item"><summary>Do you offer mobile welding?</summary><div style="margin-top:8px;color:var(--muted)">Yes — fully equipped van for on-site jobs and emergencies.</div></details>
-            <details class="faq-item"><summary>How long does a repair take?</summary><div style="margin-top:8px;color:var(--muted)">Varies by job: small repairs same-day, panel/paint repairs 1–7 days depending on complexity.</div></details>
-            <details class="faq-item"><summary>What materials do you weld?</summary><div style="margin-top:8px;color:var(--muted)">Mild steel, stainless steel and aluminium (TIG for thin aluminium).</div></details>
-          </div>
-        </div>
+    <section class="faq-industrial reveal" id="faq">
+  <h2 class="faq-title">FAQ</h2>
 
-        <div style="flex:1; min-width:280px;">
-          <h2 style="color:var(--accent1)">Testimonials</h2>
-          <div class="card" style="margin-top:8px;">
-            <p style="font-weight:700;">"Quick, clean and honest — they saved my trailer."</p>
-            <p style="color:var(--muted); margin-top:8px;">— S. Maphosa</p>
-          </div>
-          <div class="card" style="margin-top:8px;">
-            <p style="font-weight:700;">"Professional finish, excellent communication."</p>
-            <p style="color:var(--muted); margin-top:8px;">— L. Naidoo</p>
-          </div>
-        </div>
+  <div class="faq-list">
+
+    <!-- ITEM 1 -->
+    <div class="faq-item">
+      <button class="faq-header">
+        <span>Do you offer mobile welding?</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-body">
+        <p>Yes — our mobile team is fully equipped for on-site work including gates, structures, farm machines, and emergency welds.</p>
       </div>
-    </section>
+    </div>
+
+    <!-- ITEM 2 -->
+    <div class="faq-item">
+      <button class="faq-header">
+        <span>How long does a job normally take?</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-body">
+        <p>Simple repairs may take under an hour. Fabrication work varies depending on size and finishing requirements.</p>
+      </div>
+    </div>
+
+    <!-- ITEM 3 -->
+    <div class="faq-item">
+      <button class="faq-header">
+        <span>What materials do you work with?</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-body">
+        <p>We specialize in mild steel, stainless steel, aluminium, and reinforced chassis components.</p>
+      </div>
+    </div>
+
+    <!-- ITEM 4 -->
+    <div class="faq-item">
+      <button class="faq-header">
+        <span>Do you assist with design?</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-body">
+        <p>Yes. We assist with custom design and structural recommendations before fabrication begins.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
   </div>
 
   <!-- CONTACT -->
   <div class="container">
-  <section id="contact" class="panel reveal" style="margin-top:26px;">
-    <h2 style="color:var(--accent1); margin-bottom:12px;">Contact & Quote</h2>
+ <section id="contact" class="contact-terminal reveal">
+  <h2 class="contact-title">Contact & Quote</h2>
 
-    <div class="contact-grid">
-      <!-- Left Steel Plate -->
-      <div class="contact-steel">
-        <h3>Get in Touch</h3>
-        <p>Send a message, attach photos and we'll reply with a clear quote.</p>
-        <div class="contact-info-box">
-          <strong>Workshop:</strong> Johannesburg, Gauteng
+  <div class="contact-wrap">
+
+    <!-- LEFT: GLASS FORM PANEL -->
+    <div class="contact-form-panel">
+      <div class="glass-frame">
+
+        <h3 class="form-title">Request a Quote</h3>
+
+        <form class="glass-form">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Email Address" required>
+          <input type="text" placeholder="Phone Number">
+          <textarea placeholder="Tell us about your project"></textarea>
+          <button type="submit" class="send-btn">Submit Request</button>
+        </form>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: STEEL INFO PLATE + MAP -->
+    <div class="contact-info-panel">
+
+      <div class="steel-plate">
+        <h3>Workshop Info</h3>
+
+        <div class="info-line">
+          <span class="label">Phone:</span>
+          <span class="value">+27 000 0000</span>
         </div>
-        <div class="contact-info-box">
-          <strong>Call/WhatsApp:</strong> +27 63 000 0000
+
+        <div class="info-line">
+          <span class="label">Email:</span>
+          <span class="value">info@moosawelding.co.za</span>
         </div>
-        <div class="contact-info-box">
-          <strong>Email:</strong> info@moosawelding.co.za
+
+        <div class="info-line">
+          <span class="label">Hours:</span>
+          <span class="value">Mon–Sat • 08:00–18:00</span>
         </div>
       </div>
-      <!-- MAP UNDER CONTACT INFO -->
-    <div class="contact-map">
-      <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3303.1234567890!2d28.0!3d-26.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sYour%20Workshop!5e0!3m2!1sen!2sza!4v0000000000" 
-        width="100%" 
-        height="200" 
-        style="border:0; border-radius:12px; margin-top:18px;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+
+      <div class="map-frame">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=YOUR_MAP_EMBED"
+          allowfullscreen="" loading="lazy">
+        </iframe>
+
+        <div class="map-ping"></div>
+      </div>
+
     </div>
   </div>
-    </div>
-  </section>
+
+</section>
 </div>
 
 
@@ -1288,6 +2137,15 @@ hamb && hamb.addEventListener('click', () => {
   draw();
   addEventListener('resize', () => { w=canvas.width=innerWidth; h=canvas.height=innerHeight; });
 })();
+/* PROCESS ICON ROTATION ON HOVER */
+document.querySelectorAll('.stage-icon').forEach(icon => {
+  icon.addEventListener('mouseenter', () => {
+    icon.querySelector('img').style.transform = 'rotate(50deg) scale(1.1)';
+  });
+  icon.addEventListener('mouseleave', () => {
+    icon.querySelector('img').style.transform = 'rotate(0deg)';
+  });
+});
 
 /* --- ARC ANIMATION (stroke-dash) --- */
 (function(){
@@ -1352,15 +2210,7 @@ hamb && hamb.addEventListener('click', () => {
     obs.observe(c);
   });
 })();
-
-/* --- LIGHTWEIGHT FORM SUBMIT (demo) --- */
-document.getElementById('contactForm')?.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const btn = e.target.querySelector('.submit');
-  btn.disabled = true; btn.textContent = 'Sending...';
-  setTimeout(()=>{ btn.textContent='Sent — We will reply shortly'; btn.style.background='linear-gradient(90deg,#4fbf4f,#2fa02f)'; }, 900);
-});
-
+  
 /* --- gallery thumbs click (simple modal) --- */
 document.querySelectorAll('.thumb').forEach((t,i)=>{
   t.addEventListener('click', ()=>{
@@ -1374,6 +2224,29 @@ document.querySelectorAll('.thumb').forEach((t,i)=>{
     document.body.appendChild(modal);
   });
 });
+  /* HOLOGRAPHIC PAGE INTERACTION */
+document.querySelectorAll('.holo-page').forEach(page => {
+  page.addEventListener('mousemove', e => {
+    const rect = page.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const rotate = ((x / rect.width) - 0.5) * 18;
+    page.style.transform = `rotateY(${rotate}deg) scale(1.04)`;
+  });
+
+  page.addEventListener('mouseleave', () => {
+    page.style.transform = '';
+  });
+});
+/* TIMELINE FLOAT PARALLAX */
+document.querySelectorAll('.timeline-item').forEach(item => {
+  item.addEventListener('mousemove', e => {
+    item.style.transform = `translateX(${(e.offsetX - item.clientWidth/2) * 0.04}px)`;
+  });
+  item.addEventListener('mouseleave', () => {
+    item.style.transform = 'translateX(0)';
+  });
+});
+
  /* ======= STATS GAUGES JS (add into your current script block) ======= */
 (function(){
   // Build an arc path for a semicircular gauge (from -120deg to +120deg)
@@ -1462,6 +2335,20 @@ setTimeout(() => {
 
   gauges.forEach(g => io.observe(g));
 })();
+/* INDUSTRIAL FAQ ACCORDION */
+document.querySelectorAll('.faq-header').forEach(head => {
+  head.addEventListener('click', () => {
+    const item = head.parentElement;
+    item.classList.toggle('open');
+  });
+});
+/* Reset ping animation on hover */
+document.querySelector('.map-frame').addEventListener('mouseenter', () => {
+  const ping = document.querySelector('.map-ping');
+  ping.style.animation = 'none';
+  void ping.offsetWidth; // force reflow
+  ping.style.animation = '';
+});
 
 </script>
 </body>
